@@ -1,0 +1,421 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap');
+
+:root {
+    font-family: "Inter";
+  --navsize: 3rem;
+  --shadow: rgba(0, 0, 0, 0.3) 0px 2rem 4rem;
+  font-size: 0.5px;
+}
+
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.noscroll {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+.noscroll::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+.key {
+  border-radius: 0.2em;
+  border: 0.1em solid white;
+  padding: 0 0.25em;
+}
+
+body {
+  display: grid;
+  place-content: center;
+  min-height: 100vh;
+  margin: 0;
+  background: #222;
+}
+.bg {
+  position: fixed;
+  inset: 0;
+}
+.exitscreenshot {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 100;
+}
+.exitscreenshot.active {
+  display: block;
+}
+.screenshotwarning {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  font-size: 50rem;
+  text-align: center;
+  z-index: 100;
+  font-weight: 400;
+}
+.screenshotwarning.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.screenshottext {
+  height: 100%;
+  display: grid;
+  place-content: center;
+}
+
+.schedule {
+  width: 1300rem;
+  height: 1000rem;
+  background: white;
+  border-radius: 16rem;
+  padding: 0 75rem 50rem 0;
+  margin: 120rem 0 170rem 0;
+  
+  display: grid;
+  grid-template-columns: 150rem repeat(5, minmax(0, 1fr));
+  grid-template-rows: 100rem repeat(20, minmax(0, 1fr));
+  grid-gap: 10rem;
+  color: black;
+  
+  z-index: 10
+}
+.screenshot .schedule {
+  border-radius: 0;
+  margin: 0 0 0 0;
+}
+
+.day {
+  font-size: 40rem;
+  display: grid;
+  place-content: center;
+  font-weight: 500;
+}
+.time {
+  font-size: 30rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  transform: translateY(25rem);
+  font-weight: 400;
+}
+
+.emptynotice {
+  grid-area: 2/2/22/7;
+  font-size: 50rem;
+  font-weight: 500;
+  text-align: center;
+  display: grid;
+  place-content: center;
+  line-height: 1.3;
+  color: #bbb;
+  transform: translateY(-2rem)
+}
+.classgridbox {
+  grid-area: 2/2/22/7;
+  margin: -5rem;
+  z-index: -1;
+}
+
+.class {
+  position: relative;
+  background: blue;
+  font-size: 30rem;
+  border-radius: 16rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 14;
+}
+.class.new {
+  animation: popin 300ms ease;
+}
+.class.selected {
+  border: 2rem solid black;
+  z-index: 20;
+}
+
+.classname {
+  font-weight: 500;
+  text-align: center;
+  line-height: 0.98;
+  transform: translateY(2rem);
+  font-size: 0.85em;
+}
+.classlocal {
+  font-weight: 400;
+  text-align: center;
+  transform: translateY(2rem);
+  font-size: 0.85em;
+}
+
+.emptyclass {
+  margin: -5rem;
+  z-index: 13;
+}
+.emptyborder {
+  border-top: 2em solid #ddd;
+  margin: -5rem 5rem;
+  z-index: 12;
+}
+.classexpanddown, .classexpandup {
+  position: absolute;
+  height: 35rem;
+  d-background: #00000088;
+  z-index: 20;
+  touch-action: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+.classexpanddown {inset: auto 0 -20rem 0;}
+.classexpandup {inset: -20rem 0 auto 0;}
+
+.classexpanddown:after, .classexpandup:after {
+  position: absolute;
+  content: "";
+  height: 7.5rem;
+  border-radius: 5rem;
+  background: black;
+  transition: inset 300ms ease;
+  box-shadow: var(--shadow);
+}
+.newlyselected .classexpanddown:after, .newlyselected .classexpandup:after{
+  animation: expandin 200ms ease;
+}
+@keyframes expandin {
+  from {
+    opacity: 0;
+    inset: 13.75rem 30rem 13.75rem 30rem;
+    transform: scale(0.75);
+  }
+}
+.classexpanddown:after {inset: auto 30rem 5rem 30rem;}
+.classexpandup:after {inset: 5rem 30rem auto 30rem;}
+
+.classexpanddown.active:after {
+  inset: auto 20rem 5rem 20rem;
+}
+.classexpandup.active:after {
+  inset: 5rem 20rem auto 20rem;
+}
+
+
+.editclass {
+  pointer-events: none;
+  transform: translate(-50%, 40rem) scale(0.9);
+  opacity: 0;
+  transition: transform 300ms ease-in, opacity 300ms ease-in;
+  
+  position: fixed;
+  bottom: 10rem;
+  left: 50%;
+  display: grid;
+  grid-template-rows: auto auto auto auto;
+  grid-template-columns: auto auto auto auto;
+  padding: 5rem;
+  
+  background: white;
+  box-shadow: var(--shadow);
+  border-radius: 16rem;
+  z-index: 20;
+}
+
+.editclass.active {
+  pointer-events: auto;
+  transform: translate(-50%, 0) scale(1);
+  opacity: 1;
+  transition: transform 200ms ease-out, opacity 200ms ease-out;
+}
+
+.editfield {
+  display: grid;
+  border-radius: 6rem;
+  padding: 2rem;
+  background: #ddd;
+  margin: 5rem;
+}
+.editfield > input,
+.editfield > select{
+  border: none;
+  border-radius: 4rem;
+  background: white;
+  padding-left: 20rem;
+  -webkit-appearance: none;
+  color: black;
+  font-size: 23rem;
+}
+select:required:invalid {
+  color: #aaa;
+}
+option[value=""][disabled] {
+  display: none;
+}
+option {
+  color: black;
+}
+
+.editfield:has(input:focus), .editfield:has(select:focus) {
+  background: var(--gradient);
+  padding: 3rem;
+}
+.editfield > input:focus,
+.editfield > select:focus {
+  outline: none;
+  border-radius: 3rem;
+  background: rgba(255,255,255,0.85)
+}
+
+.editname {
+  width: 400rem;
+  height: 70rem;
+  grid-area: 1/1/4/2;
+}
+.editlocal {
+  width: 400rem;
+  height: 50rem;
+  grid-area: 4/1/5/2;
+}
+.editstart {
+  width: 210rem;
+  height: 60rem;
+  grid-area: 1/2/3/3;
+}
+.editend {
+  width: 210rem;
+  height: 60rem;
+  grid-area: 3/2/5/3
+}
+
+.editcolors {
+  grid-area: 1/3/5/4;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-auto-flow: column;
+  margin: 5rem 15rem;
+}
+
+.editcolor {
+  height: 55rem;
+  aspect-ratio: 1 / 1;
+  position: relative;
+  isolation: isolate;
+  background: #ddd;
+  border-radius: 50%;
+  margin: 5rem;
+}
+.editcolor.selected { background: var(--optiongradient); }
+.editcolor:before {
+  position: absolute;
+  content: "";
+  inset: 2rem;
+  z-index: 2;
+  background: white;
+  border-radius: 50%;
+}
+.editcolor.selected:before { inset: 3rem; }
+.editcolor:after {
+  position: absolute;
+  content: "";
+  inset: 5rem;
+  z-index: 2;
+  background: var(--optiongradient);
+  border-radius: 50%;
+}
+
+.editdelete {
+  grid-area: 1/4/5/5;
+  width: 130rem;
+  display: grid;
+  place-content: center;
+  border-radius: 6rem;
+  padding: 2rem;
+  background: rgba(255,0,0,0.15);
+  margin: 5rem;
+  color: rgba(255,0,0,0.3);
+  color: rgb(255,160,160);
+  font-size: 50rem;
+}
+
+
+
+
+
+.options {
+  width: 1070rem;
+  position: fixed;
+  top: 10rem;
+  left: 50%;
+  display: flex;
+  padding: 5rem;
+  transform: translate(-50%, 0);
+  
+  background: white;
+  box-shadow: var(--shadow);
+  border-radius: 16rem;
+  z-index: 20;
+}
+.screenshot .options {
+  display: none;
+}
+
+.optionbtn {
+  width: 80rem;
+  height: 80rem;
+  display: grid;
+  place-content: center;
+  border-radius: 6rem;
+  padding: 2rem;
+  d-background: #ddd;
+  margin: 5rem;
+  font-size: 45rem;
+  color: #666;
+  position: relative;
+}
+.optionbtn:hover {
+  background: #eee
+}
+
+.optionbtn > .tooltip {
+  position: absolute;
+  inset: 100% auto auto 50%;
+  transform: translate(-50%, 15rem);
+  font-size: 30rem;
+  background: white;
+  box-shadow: var(--shadow);
+  border-radius: 16rem;
+  text-align: center;
+  width: 350rem;
+  padding: 5rem 10rem;
+  color: black;
+}
+.optionbtn:not(:hover) .tooltip {
+  display: none;
+}
+
+.optiondivider {
+  background: #ddd;
+  width: 2rem;
+  border-radius: 1rem;
+  margin: 10rem 10rem;
+}
+.optionspace {
+  flex-grow: 1;
+}
+
+
+
+@keyframes popin {
+  0% {
+    opacity: 0;
+    transform: scale(0.8)
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}

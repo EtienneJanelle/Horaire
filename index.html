@@ -1,0 +1,69 @@
+<div class="bg" onclick="deselect()"></div>
+<div class="screenshotwarning" onclick="nextscreenshot()">
+  <div class="screenshottext">
+    Cliquez pour cacher ce message, puis prenez une capture d'écran
+    <br/>
+    Cliquez ensuite pour revenir à l'éditeur
+    <br/>
+    <span style="font-size: 30rem;">
+      N'oubliez pas de sauvegarder votre horaire pour pouvoir y faire des modifications si nécessaire
+      <br/>
+      <br/>
+      Sur Mac, pressez les touches
+      <span class="key">Commande</span>
+      <span class="key">Shift</span>
+      <span class="key">4</span>
+      <br/>
+      <br/>
+      Sur Windows, pressez les touches
+      <span class="key">Windows</span>
+      <span class="key">Shift</span>
+      <span class="key">S</span>
+    </span>
+  </div>
+</div>
+<div class="exitscreenshot" onclick="endscreenshot()"></div>
+
+<div class="options">
+  
+  <div class="optionbtn" onclick="changetime()">
+    <ion-icon name="time-outline"></ion-icon>
+    <div class="tooltip">Changer entre le mode 12h et le mode 24h</div>
+  </div>
+  
+  <div class="optionbtn" onclick="startscreenshot()">
+    <ion-icon name="camera-outline"></ion-icon>
+    <div class="tooltip">Prendre une image pour partager</div>
+  </div>
+  
+  <div class="optionspace"></div>
+  
+  <div class="optionbtn" onclick="zoom(0.1)">
+    <ion-icon name="add-circle-outline"></ion-icon>
+    <div class="tooltip">Agrandir</div>
+  </div>
+  <div class="optionbtn" onclick="zoom(-0.1)">
+    <ion-icon name="remove-circle-outline"></ion-icon>
+    <div class="tooltip">Rapetisser</div>
+  </div>
+  
+  <div class="optionspace"></div>
+  
+  <div class="optionbtn" onclick="upload()">
+    <ion-icon name="folder-open-outline"></ion-icon>
+    <div class="tooltip">Ouvrir un fichier sauvegardé</div>
+  </div>
+  <div class="optionbtn" onclick="download()">
+    <ion-icon name="download-outline"></ion-icon>
+    <div class="tooltip">Sauvegarder l'info de l'horaire pour le modifier plus tard<br/>(pour le partager, utilisez le bouton caméra)</div>
+  </div>
+</div>
+
+<div class="schedule"></div>
+
+<div class="editclass" style="--gradient: linear-gradient(135deg, #C4E759, #6DE195)"></div>
+
+
+
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
