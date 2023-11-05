@@ -1,4 +1,3 @@
-
 let gradients = {
   green: "#C4E759, #6DE195",
   blue: "#8DEBFF, #6CACFF",
@@ -104,6 +103,7 @@ let currentzoom = 0.5;
 function generate() {
   let content = "";
   content += `<div class="classgridbox"></div>`;
+  content += `<div class="link">Horaire créé avec: etiennejanelle.github.io/horaire </div>`;
   const days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
   for ( let i = 0; i < days.length; i++ ) {
     content += `<div class="day" style="grid-area: 1 / ${i+2} / 2 / ${i+3} ">${days[i]}</div>`
@@ -135,8 +135,9 @@ function generate() {
       grid-area: ${data.start * 2 - 14} / ${data.day+1} / ${data.end * 2 - 14} / ${data.day+2};
       background: linear-gradient(135deg, ${gradients[data.color]})"
       ${i == selectedclass ? "" : `onclick="selectclass(${i})"`}>
-      <div class="classname">${data.name}</div>
-      <div class="classlocal">${data.local}</div>
+        <div class="classname">${data.name}</div>
+        ${data.group != "" ? `<div class="classgroup">Gr. ${data.group}</div>` : ""}
+        <div class="classlocal">${data.local}</div>
       ${i == selectedclass ? `
         <div class="classexpandup" onmousedown="classexpand(${i}, this, event, false, true)" ontouchstart="classexpand(${i}, this, event, true, true)"></div>
         <div class="classexpanddown" onmousedown="classexpand(${i}, this, event, false, false)" ontouchstart="classexpand(${i}, this, event, true, false)"></div>
@@ -189,6 +190,11 @@ function generateedit() {
   </div>`;
   
   content += `
+  <div class="editgroup editfield">
+      <input type="text" placeholder="Groupe" value="${data.group}" oninput="editclassgroup(${selectedclass},this)">
+  </div>`;
+  
+  content += `
   <div class="editlocal editfield">
       <input type="text" placeholder="Local" value="${data.local}" oninput="editclasslocal(${selectedclass},this)">
   </div>`;
@@ -235,13 +241,14 @@ function generateedit() {
 function addclass(day, time) {
   classes.push({
     name: "",
+    group: "",
     local: "",
     day: day,
     start: time,
     end: time + 1,
     color: "green",
     new: true,
-    newlyselected: true
+    newlyselected: true,
   })
   selectedclass = classes.length - 1;
   generate()
@@ -273,6 +280,11 @@ function editclassname(index, el) {
   classes[index].name = el.value;
   generate()
 }
+function editclassgroup(index, el) {
+  if (index != selectedclass) {console.log("warning: modified a class that isnt selected")}
+  classes[index].group = el.value;
+  generate()
+}
 function editclasslocal(index, el) {
   if (index != selectedclass) {console.log("warning: modified a class that isnt selected")}
   classes[index].local = el.value;
@@ -299,7 +311,13 @@ function editclasscolor(index, value) {
 
 
 function download() {
-  let downloaddata = encodeURI('data:text/json;charset=utf-8,' + JSON.stringify(classes));
+  let downloaddata = encodeURI('data:text/json;charset=utf-8,' + JSON.stringify({
+    note: "Pour obtenir une version image de l'horaire, utilisez le bouton caméra du créateur d'horaire",
+    n2: "La version data de l'horaire permet de le rouvrir pour faire des modifications plus tard",
+    n3: "Lien du créateur d'horaire: etiennejanelle.github.io/horaire",
+    version: "1.1",
+    data: classes
+  }, null, 2));
   let filename = "horaire.json";
   let link = document.createElement('a');
   link.setAttribute('href', downloaddata);
@@ -317,7 +335,7 @@ function upload() {
     let file = Array.from(input.files)[0];
     let fr = new FileReader();
     fr.onload = function(e) {
-      classes = JSON.parse(e.target.result);
+      classes = JSON.parse(e.target.result).data;
       generate()
     }
     fr.readAsText(file)
@@ -516,6 +534,9 @@ function classexpand(index, el, event, istouch, istop) {
       expandmovement(e)
     });
     el.addEventListener('mouseup', (e) => {
+      expandconfirm(e)
+    });
+    el.addEventListener('mouseout', (e) => {
       expandconfirm(e)
     })
   }

@@ -37,6 +37,24 @@ body {
   position: fixed;
   inset: 0;
 }
+.credit {
+  position: fixed;
+  bottom: 3rem;
+  left: 3rem;
+  font-size: 20rem;
+  color: #777;
+  font-weight: 500;
+}
+
+.version {
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+  font-size: 20rem;
+  color: #777;
+  font-weight: 500;
+}
+
 .exitscreenshot {
   position: fixed;
   inset: 0;
@@ -69,6 +87,7 @@ body {
 }
 
 .schedule {
+  position: relative;
   width: 1300rem;
   height: 1000rem;
   background: white;
@@ -82,11 +101,22 @@ body {
   grid-gap: 10rem;
   color: black;
   
-  z-index: 10
+  z-index: 10;
+  -webkit-user-select: none;
+  user-select: none;
 }
 .screenshot .schedule {
   border-radius: 0;
   margin: 0 0 0 0;
+}
+
+.link {
+  position: absolute;
+  bottom: 3rem;
+  right: 6rem;
+  font-size: 20rem;
+  color: #999;
+  font-weight: 500;
 }
 
 .day {
@@ -148,6 +178,13 @@ body {
   transform: translateY(2rem);
   font-size: 0.85em;
 }
+.classgroup {
+  font-weight: 400;
+  text-align: center;
+  transform: translateY(3rem);
+  line-height: 0.75;
+  font-size: 0.75em;
+}
 .classlocal {
   font-weight: 400;
   text-align: center;
@@ -197,11 +234,21 @@ body {
 .classexpanddown:after {inset: auto 30rem 5rem 30rem;}
 .classexpandup:after {inset: 5rem 30rem auto 30rem;}
 
+.classexpanddown.active {
+  inset: auto 0 -200rem 0;
+  height: 400rem
+}
+.classexpandup.active {
+  inset: -200rem 0 auto 0;
+  height: 400rem;
+}
 .classexpanddown.active:after {
   inset: auto 20rem 5rem 20rem;
+  transform: translateY(-180rem);
 }
 .classexpandup.active:after {
   inset: 5rem 20rem auto 20rem;
+  transform: translateY(180rem);
 }
 
 
@@ -216,13 +263,15 @@ body {
   left: 50%;
   display: grid;
   grid-template-rows: auto auto auto auto;
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto;
   padding: 5rem;
   
   background: white;
   box-shadow: var(--shadow);
   border-radius: 16rem;
   z-index: 20;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .editclass.active {
@@ -233,6 +282,7 @@ body {
 }
 
 .editfield {
+  min-width: 0;
   display: grid;
   border-radius: 6rem;
   padding: 2rem;
@@ -248,6 +298,7 @@ body {
   -webkit-appearance: none;
   color: black;
   font-size: 23rem;
+  min-width: 0;
 }
 select:required:invalid {
   color: #aaa;
@@ -259,40 +310,48 @@ option {
   color: black;
 }
 
-.editfield:has(input:focus), .editfield:has(select:focus) {
+.editfield:has(input:focus), .editfield:has(select:focus),
+.editfield:has(input:hover), .editfield:has(select:hover){
   background: var(--gradient);
   padding: 3rem;
 }
 .editfield > input:focus,
-.editfield > select:focus {
+.editfield > select:focus,
+.editfield > input:hover,
+.editfield > select:hover{
   outline: none;
   border-radius: 3rem;
-  background: rgba(255,255,255,0.85)
+  background: rgba(255,255,255,0.85);
 }
 
 .editname {
   width: 400rem;
   height: 70rem;
-  grid-area: 1/1/4/2;
+  grid-area: 1/1/4/3;
 }
-.editlocal {
-  width: 400rem;
+.editgroup {
+  width: 195rem;
   height: 50rem;
   grid-area: 4/1/5/2;
+}
+.editlocal {
+  width: 195rem;
+  height: 50rem;
+  grid-area: 4/2/5/3;
 }
 .editstart {
   width: 210rem;
   height: 60rem;
-  grid-area: 1/2/3/3;
+  grid-area: 1/3/3/4;
 }
 .editend {
   width: 210rem;
   height: 60rem;
-  grid-area: 3/2/5/3
+  grid-area: 3/3/5/4
 }
 
 .editcolors {
-  grid-area: 1/3/5/4;
+  grid-area: 1/4/5/5;
   display: grid;
   grid-template-rows: 1fr 1fr;
   grid-auto-flow: column;
@@ -328,7 +387,7 @@ option {
 }
 
 .editdelete {
-  grid-area: 1/4/5/5;
+  grid-area: 1/5/5/6;
   width: 130rem;
   display: grid;
   place-content: center;
